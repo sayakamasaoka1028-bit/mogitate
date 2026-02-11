@@ -8,9 +8,9 @@
     <h1>商品一覧</h1>
 
     <ul>
-        <li>りんご</li>
-        <li>みかん</li>
-        <li>バナナ</li>
+        @foreach ($products as $product)
+            <li>{{ $product->name }}</li>
+        @endforeach
     </ul>
 </body>
 </html>
