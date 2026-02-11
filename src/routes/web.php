@@ -9,3 +9,6 @@ Route::get('/', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 
+Route::get('/products/register', [ProductController::class, 'register']);
+Route::post('/products/register', [ProductController::class, 'store']);
+
