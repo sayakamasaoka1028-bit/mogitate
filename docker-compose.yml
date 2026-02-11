@@ -14,3 +14,19 @@ services:
     volumes:
       - ./src:/var/www
 
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-docker-template-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
+
