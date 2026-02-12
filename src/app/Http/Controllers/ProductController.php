@@ -51,10 +51,10 @@ public function store(Request $request)
 {
     $request->validate([
         'name' => 'required|max:50',
-        'price' => 'required|integer',
-        'description' => 'required',
-        'image' => 'nullable|image',
-	//'seasons' => 'required',
+        'price' => 'required|integer|min:0|max:10000',
+        'description' => 'required|max:120',
+        'image' => 'required|image|mimes:jpg,jpeg,png',
+        'season' => 'required',
     ]);
 
     $imagePath = null;
@@ -63,12 +63,17 @@ public function store(Request $request)
         $imagePath = $request->file('image')->store('products', 'public');
     }
 
-    Product::create([
+    // 🔥 ここ重要
+    $product = Product::create([
         'name' => $request->name,
         'price' => $request->price,
         'description' => $request->description,
         'image' => $imagePath,
     ]);
+
+    // 季節保存
+    $product->seasons()->sync([$request->season])
+    ;
 
     return redirect('/products');
 }
