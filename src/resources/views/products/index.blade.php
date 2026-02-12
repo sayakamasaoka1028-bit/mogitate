@@ -1,52 +1,90 @@
 @extends('layouts.app')
 
-@section('title', '商品一覧')
-
 @section('content')
 
-<h1 class="mb-4">商品一覧</h1>
+<div class="container">
+    <h2 class="mb-4">商品一覧</h2>
 
-<form action="/products/search" method="get" class="d-flex mb-3">
-    <input type="text" name="keyword" class="form-control me-2" placeholder="検索キーワード">
-    <button type="submit" class="btn btn-primary">検索</button>
-</form>
+    <div class="row">
 
-<a href="/products/register" class="btn btn-success mb-3">商品登録</a>
+        {{-- 左カラム（検索・絞り込み） --}}
+        <div class="col-md-3">
 
-<table class="table table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>商品名</th>
-            <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($products as $product)
-        <tr>
-            <td>{{ $product->id }}</td>
-		<td>
-    		@if($product->image)
-       		 <img src="{{ asset('storage/' . $product->image) }}" width="80">
-    		@endif
+            <form action="/products" method="get">
 
-   		 <a href="/products/{{ $product->id }}">
-       		 {{ $product->name }}
-   		 </a>
-	　　　</td>
+                {{-- キーワード --}}
+                <div class="mb-3">
+                    <input type="text"
+                           name="keyword"
+                           class="form-control"
+                           placeholder="商品名で検索"
+                           value="{{ request('keyword') }}">
+                </div>
 
-            <td>
-                <a href="/products/{{ $product->id }}/update" class="btn btn-warning btn-sm">編集</a>
+                {{-- 価格並び替え --}}
+                <div class="mb-3">
+                    <select name="sort" class="form-select">
+                        <option value="">価格順</option>
+                        <option value="low" {{ request('sort')=='low' ? 'selected' : '' }}>安い順</option>
+                        <option value="high" {{ request('sort')=='high' ? 'selected' : '' }}>高い順</option>
+                    </select>
+                </div>
 
-                <form action="/products/{{ $product->id }}/delete" method="post" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-sm">削除</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                {{-- 季節 --}}
+                <h6 class="mt-4">季節で絞り込み</h6>
+                @foreach($seasons as $season)
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="season"
+                               value="{{ $season->id }}"
+                               {{ request('season')==$season->id ? 'checked' : '' }}>
+                        <label class="form-check-label">
+                            {{ $season->name }}
+                        </label>
+                    </div>
+                @endforeach
+
+                <button type="submit" class="btn btn-warning w-100 mt-3">
+                    検索
+                </button>
+
+            </form>
+
+        </div>
+
+        {{-- 右カラム（商品一覧） --}}
+        <div class="col-md-9">
+
+            <div class="row">
+                @foreach ($products as $product)
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm h-100">
+
+                            @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}"
+                                     class="card-img-top"
+                                     style="height:200px; object-fit:cover;">
+                            @endif
+
+                            <div class="card-body d-flex justify-content-between">
+                                <div>{{ $product->name }}</div>
+                                <div>¥{{ number_format($product->price) }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="d-flex justify-content-center">
+                {{ $products->links() }}
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 @endsection
 

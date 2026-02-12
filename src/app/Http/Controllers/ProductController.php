@@ -9,11 +9,35 @@ use App\Models\Season;
 class ProductController extends Controller
 {
     // 一覧
-    public function index()
-    {
-        $products = Product::with('seasons')->get();
-        return view('products.index', compact('products'));
+public function index(Request $request)
+{
+$query = Product::with('seasons');
+
+    // 🔍 キーワード検索
+    if ($request->keyword) {
+        $query->where('name', 'like', '%' . $request->keyword . '%');
     }
+
+    // 💰 価格並び替え
+    if ($request->sort === 'low') {
+        $query->orderBy('price', 'asc');
+    } elseif ($request->sort === 'high') {
+        $query->orderBy('price', 'desc');
+    }
+
+    // 🌸 季節フィルタ
+    if ($request->season) {
+        $query->whereHas('seasons', function ($q) use ($request) {
+            $q->where('season_id', $request->season);
+        });
+}
+
+
+    $products = $query->paginate(6)->withQueryString();
+    $seasons = Season::all();
+
+    return view('products.index', compact('products', 'seasons'));
+}
 
     // 登録画面
     public function create()
