@@ -62,11 +62,11 @@
                         </div>
 			<div class="mb-3">
     			<label class="form-label">季節 <span class="text-danger">必須</span></label>
-			   @foreach($seasons as $season)
+	 @foreach($seasons as $season)
    		        <div class="form-check form-check-inline">
                         <input class="form-check-input"
-                          type="radio"
-                          name="season"
+                          type="checkbox"
+                          name="seasons[]"
                           value="{{ $season->id }}"
                       {{ old('season') == $season->id ? 'checked' : '' }}>
               <label class="form-check-label">
@@ -76,7 +76,7 @@
 @endforeach
 
 
-    @error('season')
+    @error('seasons')
         <div class="text-danger">{{ $message }}</div>
     @enderror
 </div>

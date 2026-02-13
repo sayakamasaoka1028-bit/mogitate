@@ -54,7 +54,9 @@ public function store(Request $request)
         'price' => 'required|integer|min:0|max:10000',
         'description' => 'required|max:120',
         'image' => 'required|image|mimes:jpg,jpeg,png',
-        'season' => 'required',
+'seasons' => 'required|array',
+'seasons.*' => 'exists:seasons,id',
+
     ]);
 
     $imagePath = null;
@@ -72,8 +74,7 @@ public function store(Request $request)
     ]);
 
     // 季節保存
-    $product->seasons()->sync([$request->season])
-    ;
+$product->seasons()->sync($request->seasons);
 
     return redirect('/products');
 }
