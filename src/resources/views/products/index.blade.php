@@ -51,37 +51,35 @@
         {{-- 右カラム --}}
         <div class="col-md-9">
             <div class="row">
-                @foreach ($products as $product)
-                    <div class="col-md-4 mb-4">
-                        <div class="card shadow-sm h-100">
+@foreach($products as $product)
+    <div class="col-md-4 mb-4">
 
-                            @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}"
-                                     class="card-img-top"
-                                     style="height:200px; object-fit:cover;">
-                            @endif
+        <a href="/products/{{ $product->id }}" 
+           class="text-decoration-none text-dark">
 
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">
-                                    <a href="/products/{{ $product->id }}" class="text-decoration-none">
-                                        {{ $product->name }}
-                                    </a>
-                                </h6>
-                                <strong>¥{{ number_format($product->price) }}</strong>
-                            </div>
+            <div class="card shadow-sm h-100">
 
-                        </div>
-                    </div>
-                @endforeach
+                @if($product->image)
+                    <img src="{{ asset('storage/' . $product->image) }}"
+                         class="card-img-top"
+                         style="height:200px; object-fit:cover;">
+                @endif
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">
+                        {{ $product->name }}
+                    </h6>
+
+                    <strong>{{ number_format($product->price) }}</strong>
+                </div>
+
             </div>
 
-            <div class="d-flex justify-content-center">
-                {{ $products->links() }}
-            </div>
-        </div>
+        </a>
 
     </div>
+@endforeach
+<div class="d-flex justify-content-center">
+    {{ $products->links() }}
 </div>
-
-@endsection
 
