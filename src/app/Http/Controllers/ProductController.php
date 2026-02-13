@@ -123,24 +123,25 @@ public function store(Request $request)
 
         return redirect('/products');
     }
+// 削除
+public function destroy($productId)
+{
+    $product = Product::findOrFail($productId);
+    $product->seasons()->detach();
+    $product->delete();
 
-    // 削除
-    public function delete($productId)
-    {
-        $product = Product::findOrFail($productId);
-        $product->delete();
+    return redirect()->route('products.index');
+}
 
-        return redirect('/products');
-    }
+// 検索
+public function search(Request $request)
+{
+    $keyword = $request->keyword;
 
-    // 検索
-    public function search(Request $request)
-    {
-        $keyword = $request->keyword;
+    $products = Product::where('name', 'like', "%{$keyword}%")->get();
 
-        $products = Product::where('name', 'like', "%{$keyword}%")->get();
+    return view('products.index', compact('products'));
+}
 
-        return view('products.index', compact('products'));
-    }
 }
 

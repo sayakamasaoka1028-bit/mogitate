@@ -23,26 +23,11 @@
                 {{-- 並び替え --}}
                 <div class="mb-3">
                     <select name="sort" class="form-select">
-                        <option value="">価格順</option>
+                        <option value="">価格順で表示</option>
                         <option value="low" {{ request('sort')=='low' ? 'selected' : '' }}>安い順</option>
                         <option value="high" {{ request('sort')=='high' ? 'selected' : '' }}>高い順</option>
                     </select>
                 </div>
-
-                {{-- 季節 --}}
-                <h6 class="mt-4">季節で絞り込み</h6>
-                @foreach($seasons as $season)
-                    <div class="form-check">
-                        <input class="form-check-input"
-                               type="radio"
-                               name="season"
-                               value="{{ $season->id }}"
-                               {{ request('season')==$season->id ? 'checked' : '' }}>
-                        <label class="form-check-label">
-                            {{ $season->name }}
-                        </label>
-                    </div>
-                @endforeach
 
                 <button type="submit" class="btn btn-primary mt-3 w-100">検索</button>
             </form>
