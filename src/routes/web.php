@@ -3,21 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// トップページ → 商品一覧へリダイレクト
 Route::get('/', function () {
-    return redirect('/products');
+    return redirect()->route('products.index');
 });
 
-Route::get('/products', [ProductController::class, 'index']);
-
-Route::get('/products/register', [ProductController::class, 'create']);
-Route::post('/products/register', [ProductController::class, 'store']);
-
-Route::get('/products/search', [ProductController::class, 'search']);
-
-Route::get('/products/{productId}', [ProductController::class, 'show']);
-
-Route::get('/products/{productId}/update', [ProductController::class, 'edit']);
-Route::post('/products/{productId}/update', [ProductController::class, 'update']);
-
-Route::post('/products/{productId}/delete', [ProductController::class, 'delete']);
+// 商品ルート一式（RESTful）
+Route::resource('products', ProductController::class);
 

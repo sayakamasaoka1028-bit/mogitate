@@ -7,9 +7,8 @@
 
     <div class="row">
 
-        {{-- 左カラム（検索・絞り込み） --}}
+        {{-- 左カラム --}}
         <div class="col-md-3">
-
             <form action="/products" method="get">
 
                 {{-- キーワード --}}
@@ -21,7 +20,7 @@
                            value="{{ request('keyword') }}">
                 </div>
 
-                {{-- 価格並び替え --}}
+                {{-- 並び替え --}}
                 <div class="mb-3">
                     <select name="sort" class="form-select">
                         <option value="">価格順</option>
@@ -45,17 +44,12 @@
                     </div>
                 @endforeach
 
-                <button type="submit" class="btn btn-warning w-100 mt-3">
-                    検索
-                </button>
-
+                <button type="submit" class="btn btn-primary mt-3 w-100">検索</button>
             </form>
-
         </div>
 
-        {{-- 右カラム（商品一覧） --}}
+        {{-- 右カラム --}}
         <div class="col-md-9">
-
             <div class="row">
                 @foreach ($products as $product)
                     <div class="col-md-4 mb-4">
@@ -67,9 +61,13 @@
                                      style="height:200px; object-fit:cover;">
                             @endif
 
-                            <div class="card-body d-flex justify-content-between">
-                                <div>{{ $product->name }}</div>
-                                <div>¥{{ number_format($product->price) }}</div>
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <a href="/products/{{ $product->id }}" class="text-decoration-none">
+                                        {{ $product->name }}
+                                    </a>
+                                </h6>
+                                <strong>¥{{ number_format($product->price) }}</strong>
                             </div>
 
                         </div>
@@ -80,7 +78,6 @@
             <div class="d-flex justify-content-center">
                 {{ $products->links() }}
             </div>
-
         </div>
 
     </div>
