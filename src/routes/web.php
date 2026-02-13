@@ -9,11 +9,33 @@ use App\Http\Controllers\ProductController;
 |--------------------------------------------------------------------------
 */
 
-// トップページ → 商品一覧へリダイレクト
+// トップページ → 商品一覧へ
 Route::get('/', function () {
-    return redirect()->route('products.index');
+    return redirect('/products');
 });
 
-// 商品ルート一式（RESTful）
-Route::resource('products', ProductController::class);
+/*
+|--------------------------------------------------------------------------
+| Products（仕様通り）
+|--------------------------------------------------------------------------
+*/
+
+// 一覧
+Route::get('/products', [ProductController::class, 'index']);
+
+// 登録
+Route::get('/products/register', [ProductController::class, 'create']);
+Route::post('/products/register', [ProductController::class, 'store']);
+
+// 詳細
+Route::get('/products/{productId}', [ProductController::class, 'show']);
+
+// 更新
+Route::post('/products/{productId}/update', [ProductController::class, 'update']);
+
+// 削除
+Route::post('/products/{productId}/delete', [ProductController::class, 'destroy']);
+
+// 検索
+Route::get('/products/search', [ProductController::class, 'search']);
 

@@ -130,7 +130,7 @@ public function destroy($productId)
     $product->seasons()->detach();
     $product->delete();
 
-    return redirect()->route('products.index');
+    return \redirect('/products');
 }
 
 // 検索

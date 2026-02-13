@@ -57,27 +57,30 @@
                           rows="4"
                           readonly>{{ $product->description }}</textarea>
             </div>
-<div class="d-flex align-items-center gap-3 mt-4">
+         <div class="d-flex align-items-center gap-3 mt-4">
 
-    <a href="{{ route('products.index') }}" class="btn btn-secondary">
-        戻る
-    </a>
+           {{-- 戻る --}}
+           <a href="/products" class="btn btn-secondary">
+             戻る
+           </a>
 
-    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">
-        変更
-    </a>
+           {{-- 変更 --}}
+           <a href="/products/{{ $product->id }}/update"
+             class="btn btn-warning">
+             変更
+           </a>
 
-    <form action="{{ route('products.destroy', $product->id) }}"
-          method="POST"
-          onsubmit="return confirm('本当に削除しますか？');"
-          class="m-0">
-        @csrf
-        @method('DELETE')
-        <button type="submit"
-                class="border-0 bg-transparent text-danger fs-4">
-            <i class="bi bi-trash-fill"></i>
-        </button>
-    </form>
+         {{-- 削除 --}}
+<form action="/products/{{ $product->id }}/delete"
+      method="POST"
+      onsubmit="return confirm('本当に削除しますか？');"
+      class="m-0">
+    @csrf
+    <button type="submit"
+            class="border-0 bg-transparent text-danger fs-4">
+        <i class="bi bi-trash-fill"></i>
+    </button>
+</form>
 
 </div>
 
