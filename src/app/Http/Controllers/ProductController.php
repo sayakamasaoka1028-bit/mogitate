@@ -100,7 +100,7 @@ public function store(Request $request)
         $request->validate([
             'name' => 'required|max:50',
             'price' => 'required|integer',
-            'description' => 'nullable|string',
+	    'description' => 'required|string|max:120',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
