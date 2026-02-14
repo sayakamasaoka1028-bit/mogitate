@@ -16,10 +16,8 @@
         </ul>
     </div>
 @endif
-
-<form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ url('/products/' . $product->id . '/update') }}" method="POST">
     @csrf
-    @method('PUT')
 
     <div class="mb-3">
         <label class="form-label">商品名</label>

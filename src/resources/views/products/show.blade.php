@@ -65,7 +65,7 @@
            </a>
 
            {{-- 変更 --}}
-           <a href="/products/{{ $product->id }}/update"
+           <a href="/products/{{ $product->id }}/edit"
              class="btn btn-warning">
              変更
            </a>

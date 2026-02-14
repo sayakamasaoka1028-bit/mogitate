@@ -21,7 +21,8 @@ Route::get('/', function () {
 */
 
 // 一覧
-Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index'])
+    ->name('products.index');
 
 // 登録
 Route::get('/products/register', [ProductController::class, 'create']);
@@ -29,6 +30,8 @@ Route::post('/products/register', [ProductController::class, 'store']);
 
 // 詳細
 Route::get('/products/{productId}', [ProductController::class, 'show']);
+
+Route::get('/products/{productId}/edit', [ProductController::class, 'edit']);
 
 // 更新
 Route::post('/products/{productId}/update', [ProductController::class, 'update']);

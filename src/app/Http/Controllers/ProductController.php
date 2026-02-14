@@ -96,34 +96,35 @@ $product->seasons()->sync($request->seasons);
     }
 
     // 更新処理
-    public function update(Request $request, $productId)
-    {
-        $request->validate([
-            'name' => 'required|max:50',
-            'price' => 'required|integer',
-	    'description' => 'required|string|max:120',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+public function update(Request $request, $productId)
+{
+    $request->validate([
+        'name' => 'required|max:50',
+        'price' => 'required|integer',
+        'description' => 'required|string|max:120',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'seasons' => 'required|array',
+    ]);
 
-        $product = Product::findOrFail($productId);
+    $product = Product::findOrFail($productId);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $product->image = $imagePath;
-        }
-
-        $product->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-        ]);
-
-        if ($request->seasons) {
-            $product->seasons()->sync($request->seasons);
-        }
-
-        return redirect('/products');
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+        $product->image = $imagePath;
     }
+
+    $product->update([
+        'name' => $request->name,
+        'price' => $request->price,
+        'description' => $request->description,
+    ]);
+
+    // 季節更新
+    $product->seasons()->sync($request->seasons);
+
+    return redirect('/products');
+}
+
 // 削除
 public function destroy($productId)
 {
