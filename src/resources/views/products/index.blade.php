@@ -3,10 +3,16 @@
 @section('content')
 
 <div class="container">
-    <h2 class="mb-4">商品一覧</h2>
- <a href="/products/register" class="btn btn-warning">
-      ＋ 商品を追加
-  </a>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">商品一覧</h2>
+
+        <a href="/products/register" class="btn btn-warning">
+            ＋ 商品を追加
+        </a>
+    </div>
+
+    <div class="row">
 
     <div class="row">
 
