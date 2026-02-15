@@ -65,6 +65,17 @@
     <div class="container mt-4">
         @yield('content')
     </div>
+<script>
+document.getElementById('image').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const preview = document.getElementById('preview');
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+</script>
 
 </body>
 

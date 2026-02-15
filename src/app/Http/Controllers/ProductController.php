@@ -98,13 +98,20 @@ $product->seasons()->sync($request->seasons);
     // 更新処理
 public function update(Request $request, $productId)
 {
-    $request->validate([
+    $rules = [
         'name' => 'required|max:50',
-        'price' => 'required|integer',
-        'description' => 'required|string|max:120',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'price' => 'required|integer|min:0|max:10000',
+        'description' => 'required|max:120',
         'seasons' => 'required|array',
-    ]);
+        'seasons.*' => 'exists:seasons,id',
+    ];
+
+    // 🔥 画像がある時だけバリデーション追加
+    if ($request->hasFile('image')) {
+        $rules['image'] = 'image|mimes:jpg,jpeg,png|max:2048';
+    }
+
+    $request->validate($rules);
 
     $product = Product::findOrFail($productId);
 
@@ -119,7 +126,6 @@ public function update(Request $request, $productId)
         'description' => $request->description,
     ]);
 
-    // 季節更新
     $product->seasons()->sync($request->seasons);
 
     return redirect('/products');
