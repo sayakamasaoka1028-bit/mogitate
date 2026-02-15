@@ -16,7 +16,9 @@
         </ul>
     </div>
 @endif
-<form action="{{ url('/products/' . $product->id . '/update') }}" method="POST">
+<form action="{{ url('/products/' . $product->id . '/update') }}" 
+      method="POST" 
+      enctype="multipart/form-data">
     @csrf
 
     <div class="mb-3">
