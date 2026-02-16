@@ -139,12 +139,10 @@ public function products()
 
 # 🖥 画面イメージ
 
-※ imagesフォルダを作成して画像を配置してください
-
 ```markdown
-![商品一覧](./images/index.png)
-![商品登録](./images/create.png)
-![商品編集](./images/edit.png)
+![商品一覧](./src/images/index.png)
+![商品登録](./src/images/create.png)
+![商品編集](./src/images/edit.png)
 ```
 
 ---
