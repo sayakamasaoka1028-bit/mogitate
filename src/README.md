@@ -1,64 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🍓 Mogitate 商品管理アプリ
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 アプリ概要
 
-## About Laravel
+本アプリは、商品と季節を紐づけて管理できる商品管理システムです。  
+商品（products）と季節（seasons）は多対多の関係を持ち、中間テーブル（product_season）を用いて管理しています。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Laravelを用いたCRUD機能の実装およびリレーション設計の理解を目的として開発しました。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 🛠 技術スタック
 
-## Learning Laravel
+- Laravel
+- MySQL
+- Docker
+- Blade
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 🎯 技術選定理由
 
-## Laravel Sponsors
+## ■ Laravelを採用した理由
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Eloquent ORMにより多対多リレーションを簡潔に実装可能
+- belongsToMany() による中間テーブル管理が容易
+- バリデーション・ページネーション機能が標準搭載
+- MVC設計により責務分離が明確
 
-### Premium Partners
+## ■ MySQLを採用した理由
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- リレーショナルデータベースとして多対多構造の管理に適している
+- 外部キー制約によりデータ整合性を担保できる
 
-## Contributing
+## ■ Dockerを採用した理由
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 開発環境の統一
+- 再現性のある環境構築
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 🗂 テーブル設計
 
-## Security Vulnerabilities
+## products
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- id (PK)
+- name
+- price
+- image
+- description
+- created_at
+- updated_at
 
-## License
+## seasons
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- id (PK)
+- name
+- created_at
+- updated_at
+
+## product_season（中間テーブル）
+
+- id (PK)
+- product_id (FK → products.id)
+- season_id (FK → seasons.id)
+- created_at
+- updated_at
+
+---
+
+# 📊 ER図
+
+```
+products 1 ─── n product_season n ─── 1 seasons
+```
+
+```
++------------------+
+|     products     |
++------------------+
+| id (PK)          |
+| name             |
+| price            |
+| image            |
+| description      |
+| created_at       |
+| updated_at       |
++------------------+
+          |
+          | 1
+          |
+          | n
++----------------------+
+|   product_season     |
++----------------------+
+| id (PK)              |
+| product_id (FK)      |
+| season_id (FK)       |
+| created_at           |
+| updated_at           |
++----------------------+
+          |
+          | n
+          |
+          | 1
++------------------+
+|     seasons      |
++------------------+
+| id (PK)          |
+| name             |
+| created_at       |
+| updated_at       |
++------------------+
+```
+
+---
+
+# 🔗 モデルリレーション
+
+## Product.php
+
+```php
+public function seasons()
+{
+    return $this->belongsToMany(Season::class);
+}
+```
+
+## Season.php
+
+```php
+public function products()
+{
+    return $this->belongsToMany(Product::class);
+}
+```
+
+---
+
+# 🖥 画面イメージ
+
+※ imagesフォルダを作成して画像を配置してください
+
+```markdown
+![商品一覧](./images/index.png)
+![商品登録](./images/create.png)
+![商品編集](./images/edit.png)
+```
+
+---
+
+# 🚀 実装機能
+
+- 商品一覧表示
+- 商品登録
+- 商品更新
+- 商品削除
+- 検索機能
+- ページネーション
+- 季節の複数選択（多対多リレーション）
+
+---
+
+# 💡 学習ポイント
+
+- 多対多リレーション設計
+- 中間テーブルの理解
+- Eloquentによるリレーション操作
+- Docker環境構築
+

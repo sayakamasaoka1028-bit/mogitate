@@ -73,8 +73,8 @@
          {{-- 削除 --}}
 <form action="/products/{{ $product->id }}/delete"
       method="POST"
-      onsubmit="return confirm('本当に削除しますか？');"
-      class="m-0">
+      onsubmit="return confirm('削除しますか？')">
+
     @csrf
     <button type="submit"
             class="border-0 bg-transparent text-danger fs-4">
