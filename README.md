@@ -139,11 +139,9 @@ public function products()
 
 # 🖥 画面イメージ
 
-```markdown
 ![商品一覧](./src/images/index.png)
 ![商品登録](./src/images/create.png)
 ![商品編集](./src/images/edit.png)
-```
 
 ---
 
