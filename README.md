@@ -8,15 +8,33 @@
 Laravelを用いたCRUD機能の実装およびリレーション設計の理解を目的として開発しました。
 
 ---
-
 # 🛠 技術スタック
 
-- Laravel
-- MySQL
+- Laravel 8.83.29
+- PHP 8.1.34
+- MySQL 8.0
 - Docker
 - Blade
 
 ---
+
+## ⚙️ 開発環境
+
+- macOS
+- Docker Desktop
+- docker-compose
+- Nginx
+
+## 🛠 環境構築手順
+
+git clone https://github.com/sayakamasaoka1028-bit/mogitate
+cd mogitate
+docker compose up -d
+docker compose exec php php artisan migrate
+docker compose exec php php artisan storage:link
+---
+ブラウザで http://localhost:8081 にアクセスしてください。
+
 
 # 🎯 技術選定理由
 
